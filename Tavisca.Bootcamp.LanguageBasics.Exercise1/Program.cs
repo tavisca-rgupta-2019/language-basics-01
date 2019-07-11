@@ -19,87 +19,65 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             var result = FindDigit(args).Equals(expected) ? "PASS" : "FAIL";
             Console.WriteLine($"{args} : {result}");
         }
+        public static string get_division(string number,string result)
+        {
+          float num=float.Parse(result)/float.Parse(number);
+          string Num=num.ToString();
+          return Num;
+        }
+        public static int get_digit(string Num,string ExpectedNum)
+        { int FinalResult=-1;
+          if(Num.Length==ExpectedNum.Length)
+          { char[] result=Num.ToCharArray();
+               char[] problem=ExpectedNum.ToCharArray();
+               for(int i=0;i<Num.Length;i++)
+               { if(problem[i]=='?')
+                 {FinalResult=int.Parse(result[i].ToString());
+                 continue;}
+                 if(result[i]!=problem[i])
+                 { FinalResult=-1;
+                   break;
+                 }
+               }
+          }
+              return FinalResult;
+        }
+        public static string get_product(string A,string B)
+        { float product=float.Parse(A)*float.Parse(B);
+          return product.ToString();
+
+        }
+
+          
+
+
+        
 
         public static int FindDigit(string equation)
         {
             // Add your code here.
-            int i1=equation.IndexOf('*');
-            int i2=equation.IndexOf('=');
-            string a=equation.Substring(0,i1);
-            string b=equation.Substring(i1+1,i2-i1-1);
-            string c=equation.Substring(i2+1);
+            int indexOfAsterik=equation.IndexOf('*');
+            int indexOfEquals=equation.IndexOf('=');
+            string a=equation.Substring(0,indexOfAsterik);
+            string b=equation.Substring(indexOfAsterik+1,indexOfEquals-indexOfAsterik-1);
+            string c=equation.Substring(indexOfEquals+1);
+            int Missing_Digit=-1;
             if(a.Contains('?'))
-            { float f2=float.Parse(b);
-              float f3=float.Parse(c);
-              float f1=f3/f2;
-              string s1=f1.ToString();
-              int l1=s1.Length;
-              int l2=a.Length;
-              int r=-1;
-              if(l1==l2)
-              {char[] result=s1.ToCharArray();
-               char[] prob=a.ToCharArray();
-               for(int i=0;i<l1;i++)
-               { if(prob[i]=='?')
-                 {r=int.Parse(result[i].ToString());
-                 continue;}
-                 if(result[i]!=prob[i])
-                 { r=-1;
-                   break;
-                 }
-               }
-              }
-              return r;
+            { 
+              string Num=get_division(b,c);
+              Missing_Digit=get_digit(Num,a);
             }
-
             else if(b.Contains('?'))
-            {float f1=float.Parse(a);
-              float f3=float.Parse(c);
-              float f2=f3/f1;
-              string s2=f2.ToString();
-              int l1=s2.Length;
-              int l2=b.Length;
-              int r=-1;
-              if(l1==l2)
-              {char[] result=s2.ToCharArray();
-               char[] prob=b.ToCharArray();
-               for(int i=0;i<l1;i++)
-               { if(prob[i]=='?')
-                 {r=int.Parse(result[i].ToString());
-                 continue;}
-                 if(result[i]!=prob[i])
-                 { r=-1;
-                   break;
-                 }
-               }
-              }
-              return r;
-
+            { string Num=get_division(a,c);
+              Missing_Digit=get_digit(Num,b);
+             
              }
              else
-             {float f1=float.Parse(a);
-              float f2=float.Parse(b);
-              float f3=f1*f2;
-              string s3=f3.ToString();
-              int l1=s3.Length;
-              int l2=c.Length;
-              int r=-1;
-              if(l1==l2)
-              {char[] result=s3.ToCharArray();
-               char[] prob=c.ToCharArray();
-               for(int i=0;i<l1;i++)
-               { if(prob[i]=='?')
-                 {r=int.Parse(result[i].ToString());
-                 continue;}
-                 if(result[i]!=prob[i])
-                 { r=-1;
-                   break;
-                 }
-               }
-              }
-              return r;
-
+             { string Res=get_product(a,b);
+               Missing_Digit=get_digit(Res,c);
+             
              }
+             return Missing_Digit;
             throw new NotImplementedException();
         }
     }
